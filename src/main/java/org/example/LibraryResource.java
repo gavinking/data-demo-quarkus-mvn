@@ -2,25 +2,37 @@ package org.example;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
 import java.util.List;
 
-@Path("/")
-@Transactional
+@Path("/books")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class LibraryResource {
 
-    @Inject Library library;
+    @Inject
+    Library library;
 
     @GET
-    @Path("/book/{isbn}")
+    public List<Book> allBooks() {
+        return library.allBooks(_Book.title.ascIgnoreCase());
+    }
+
+    @GET
+    @Path("/{isbn}")
     public Book byIsbn(@PathParam String isbn) {
         return library.byIsbn(isbn)
-                .orElseThrow(() ->new NotFoundException(isbn));
+                .orElseThrow(() -> new NotFoundException(isbn));
     }
 
     @GET
@@ -30,30 +42,24 @@ public class LibraryResource {
         return library.byTitle(pattern);
     }
 
-    @GET
-    @Path("/books")
-    public  List<Book> allBooks() {
-        return library.allBooks(_Book.title.ascIgnoreCase());
-    }
-
     @POST
-    @Path("/new")
-    public String create(Book book) {
-        library.add(book);
-        return "Added " + book.isbn;
-    }
-
-    @POST
-    @Path("/delete/{isbn}")
     @Transactional
-    public String delete(@PathParam String isbn) {
+    public Response create(Book book) {
+        library.add(book);
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    @DELETE
+    @Path("/{isbn}")
+    @Transactional
+    public Response delete(@PathParam String isbn) {
         library.delete(isbn);
-        return "Deleted " + isbn;
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @GET
     @Path("/summary")
-    public  List<Summary> summary() {
+    public List<Summary> summary() {
         return library.summarize();
     }
 
