@@ -11,6 +11,7 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import java.util.List;
 
 @Path("/")
+@Transactional
 public class LibraryResource {
 
     @Inject Library library;

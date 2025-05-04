@@ -7,13 +7,11 @@ import jakarta.data.repository.Insert;
 import jakarta.data.repository.OrderBy;
 import jakarta.data.repository.Query;
 import jakarta.data.repository.Repository;
-import jakarta.transaction.Transactional;
 import org.hibernate.annotations.processing.Pattern;
 
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Repository
 public interface Library {
 
