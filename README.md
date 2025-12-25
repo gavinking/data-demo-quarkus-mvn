@@ -15,7 +15,7 @@ This is the Maven version. There's also a [Gradle version](https://github.com/ga
 
 - Quarkus 3.15 or above, with RESTEasy Classic and Jackson
 - Jakarta Data 1.0
-- Hibernate Metamodel Generator 6.6
+- Hibernate Processor 7.1
 
 ## Running the application in dev mode
 
@@ -25,7 +25,7 @@ You can run your application in dev mode that enables live coding using:
 ./mvnw compile quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+> **_NOTE:_** Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
 ## Packaging and running the application
 
